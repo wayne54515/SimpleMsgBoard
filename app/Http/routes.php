@@ -36,7 +36,7 @@ Route::group(['prefix' => '/user'], function () {
 
     Route::get('/check_email/{email}', 'UserController@checkEmailExist');
 
-    Route::get('/check_name/{name}', 'UserController@checkEmailExist');
+    Route::get('/check_name/{name}', 'UserController@checkNameExist');
 
     Route::post('/account', 'UserController@checkAccount');
 

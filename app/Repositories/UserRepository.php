@@ -50,8 +50,8 @@ class UserRepository
 
     public function checkEmailExist($email){
         $exist = $this->user
-        ->where('email', '=', $email)
-        ->count();
+            ->where('email', '=', $email)
+            ->count();
 
         return $exist ?true :false;
     }

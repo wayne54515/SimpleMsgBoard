@@ -43,7 +43,7 @@ class UserService
         $user_data = $input_data['user'];
         $user_data['type'] = "normal";
         $user_data['password'] = Hash::make($user_data['password']);
-        $user_data->forget('confirm');
+
         $this->userRepo->insertUser($user_data);
     }
 

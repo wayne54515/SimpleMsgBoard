@@ -66,15 +66,40 @@
                 <th>創建時間</th>
             </thead>
             <tbody class="user-table">
-                <tr v-for="user in user_list" :key="user.id" v-bind:style="{color: user.color}">
-                    <td>{{user.name}}</td>
-                    <td>{{user.name}}</td>
+                <tr v-for="(user, userIndex) in user_list" :key="user.id" v-bind:style="{color: user.color}">
+                    <td><span class="button" @click="showProfile(userIndex)">{{user.name}}</span></td>
+                    <td>{{user.avatar}}</td>
                     <td>{{user.email}}</td>
                     <td>{{user.sex}}</td>
                     <td>{{user.created_at}}</td>
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="profile">
+        <transition enter-active-class="show" leave-active-class="hide">
+        <div class="form-mask" v-if="profile_state">
+            <div class="profile-content"  v-bind:style="{color: profile.color}">
+                <h3 style="display: inline">MEMBER INFO</h3>
+                <span class="close-page" @click="profile_state = false;">X</span>
+                <p class="seperate-line"></p>
+                <div class="profile-info">
+                    <span><p>Name:{{profile.name}}</p></span>
+                    <span><p>Email:{{profile.email}}</p></span>
+                    <span><p>Color:{{profile.color}}</p></span>
+                    <span><p>Sex:{{profile.sex}}</p></span>
+                    <span><p>Create Time:{{profile.created_at}}</p></span>
+                </div>
+                <div class="profile-avatar">
+                    <img>
+                    <input type="file" value="Choose File">
+                    <center><button type="submit" @click="uploadAvatar()">New Avatar</button></center>
+                </div>
+            </div>
+        </div>
+        </transition>
+        
     </div>
 </div>
 </template>
@@ -88,9 +113,11 @@ export default {
             user_list: {},//會員清單
             user: {},//form user data
             user_info: {},//login user data
+            profile: {},//user profile data
             user_state: "guest",
             page_state: "not_login",
             form_state: "",
+            profile_state: false,
             alert_msg: "",// login/register錯誤警告
         }
     },
@@ -174,7 +201,7 @@ export default {
         checkRegisterForm: function(){
             if((this.user.name != null) & (this.user.email != null) & (this.user.password != null) & (this.user.confirm != null)  & (this.user.sex != null))
                 if(this.user.password == this.user.confirm)
-                    this.checkEmailExist();
+                    this.checkNameExist();
                 else   
                     this.alert_msg = "密碼與認證密碼不同";
             else
@@ -199,6 +226,7 @@ export default {
 
         checkNameExist: function(){
             let self = this;
+            // console.log("name check"+this.user.name);
             this.axios.get('/user/check_name/' + this.user.name)
                 .then(function(response){
                     if(response.data.status)
@@ -210,6 +238,15 @@ export default {
                     console.log(response);
                 })
         },
+
+        showProfile: function(index){
+            this.profile = this.user_list[index];
+            this.profile_state = true;
+        },
+
+        uploadAvatar: function(){
+
+        }
 
     },
 
@@ -357,5 +394,50 @@ export default {
     @keyframes back {
         from { opacity: 1; }
         to { opacity: 0; }
+    }
+
+    .profile-content {
+        width: 46%;
+        margin-left: 27%;
+        margin-top: 10%;
+        text-align: left;
+        position: absolute;
+        overflow: hidden;
+        background-color: white;
+        padding: 2%;
+    }
+
+    .profile-info {
+        display: inline-block;
+        /* background-color: chartreuse; */
+        width: 50%;
+    }
+    .profile-info p{
+        font-size: 15px;
+        margin: 2%;
+    }
+
+    .profile-avatar{
+        float: right;
+        overflow: hidden;
+        width: 45%;
+        /* background-color: coral; */
+    }
+
+    .profile-avatar button{
+        padding:2%;
+        background-color: rgb(26, 167, 167);
+        font-weight: bold;
+        font-size: 15px;
+        color:#dddddd;
+        border-radius: 5px;
+        text-align: center;
+        display : block;
+    }
+
+    .seperate-line{
+        display: block;
+        width: auto;
+        margin-bottom: 5%;
     }
 </style>

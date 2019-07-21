@@ -52,7 +52,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $input_data = $request->all();
+        $input_data = $request->except('confirm');
         
         $this->userService->insertUser($input_data);
 
@@ -119,7 +119,7 @@ class UserController extends Controller
     }
 
     public function checkNameExist($name){
-        $result = $this->userRepository->checkEmailExist($name);
+        $result = $this->userRepository->checkNameExist($name);
         return response()->json(['status' => $result], 200, $this->header);
     }
 
