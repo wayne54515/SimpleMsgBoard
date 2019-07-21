@@ -1,0 +1,23 @@
+// bootstrap3
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+// bootstrap 4
+//@import "node_modules/bootstrap/scss/bootstrap";
+.content {
+    width: 1100px;
+    height: auto;
+    margin: auto;
+}
+
+.data-table {
+    border: 1px black solid;
+}
+
+.page-nonactive {
+    cursor: pointer;
+    color: blue;
+}
+
+.page > span::after{
+    content: " ";
+}
