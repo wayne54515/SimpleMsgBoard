@@ -40,4 +40,6 @@ Route::group(['prefix' => '/user'], function () {
 
     Route::post('/account', 'UserController@checkAccount');
 
+    Route::post('/avatar', 'UserController@uploadAvatar');
+
 });

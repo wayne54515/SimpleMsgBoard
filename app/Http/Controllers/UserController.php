@@ -125,7 +125,7 @@ class UserController extends Controller
 
     public function checkAccount(Request $request){
         $input_data = $request->all();
-        $result = $this->userRepository->checkAccount($input_data);
+        $result = $this->userRepository->checkAccount($input_data['user']);
         return response()->json(['status' => $result], 200, $this->header);
     }
 }

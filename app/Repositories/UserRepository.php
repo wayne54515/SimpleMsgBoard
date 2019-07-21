@@ -6,6 +6,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use Hash;
 
 class UserRepository
 {
@@ -64,7 +65,31 @@ class UserRepository
         return $exist ?true :false;
     }
 
-    public function checkAccount($data){
-        return true;
+    public function checkAccount($user_data){
+        $exist = $this->user
+                ->where('email', '=', $user_data['email'])
+                ->first();
+
+        if(!empty($exist)){
+            if (Hash::check($user_data['password'], $exist['password'])) {
+                $result['status'] = true;
+                $result['user'] = $exist;
+                $result['error'] = "";
+                return $result;
+            }
+            else{
+                $result['status'] = false;
+                $result['user'] = null;
+                $result['error'] = "密碼錯誤";
+                return $result; 
+            }
+        }
+        else{
+            $result['status'] = false;
+            $result['user'] = null;
+            $result['error'] = "此信箱未註冊";
+            return $result;
+        }
+        // return $exist;
     }
 }
