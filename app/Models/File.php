@@ -8,7 +8,7 @@ class File extends BaseModel
 {
 
     protected $fillable = [
-        
+        'user_name', 'file_name', 'download_link', 'file_size', 'created_at'
     ];
 
     protected $hidden = [

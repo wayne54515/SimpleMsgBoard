@@ -24,4 +24,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token' ,'updated_at'
     ];
+
+    /**
+     * 取得 模型
+     * 
+     * @return App\Models\File
+     */
+    public function file(){
+        return $this->hasOne('App\Models\file', 'user_name', 'name')->orderBy('id', 'desc');
+    }
+
 }

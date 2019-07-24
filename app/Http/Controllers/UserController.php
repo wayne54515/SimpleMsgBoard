@@ -53,6 +53,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $input_data = $request->except('confirm');
+        // $input_data = $request->except('file');
         
         $this->userService->insertUser($input_data);
 

@@ -18,7 +18,9 @@ class UserRepository
     }
 
     public function getAllUser(){
-        return $this->user->all();
+        return $this->user
+            ->with('file')
+            ->get();
     }
 
     /**

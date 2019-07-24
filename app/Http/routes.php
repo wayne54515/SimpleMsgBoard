@@ -40,6 +40,20 @@ Route::group(['prefix' => '/user'], function () {
 
     Route::post('/account', 'UserController@checkAccount');
 
-    Route::post('/avatar', 'UserController@uploadAvatar');
+});
+
+Route::group(['prefix' => '/image'], function () {
+
+    // Route::get('/{id}', 'UserController@show');
+
+    Route::get('/', 'FileController@index');
+
+    Route::post('/', 'FileController@store');
+
+    Route::get('/edit/{id}', 'FileController@edit');
+
+    Route::put('/update/{id}', 'FileController@update');
+
+    Route::delete('/del/{id}', 'FileController@destroy');
 
 });

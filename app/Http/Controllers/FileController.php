@@ -6,8 +6,21 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Repositories\FileRepository;
+
 class FileController extends Controller
 {
+
+    /** @var FileRepository */
+    protected $fileRepository;
+
+    /**
+     * 建構子
+     */
+    public function __construct(FileRepository $fileRepository){
+        $this->fileRepository = $fileRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -36,7 +49,18 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        if($this->fileRepository->checkFileNotExist($data['user_name'], $data['img_name'])){
+            $result = $this->fileRepository->insertFile($data);
+        }
+        else
+            $result = false;
+        // $user_name = $data['user_name'];
+        // $image_name = $data['img_name'];
+        // $data['image']->move(public_path('img/user/' . $user_name . '/'), $image_name);
+
+        return response()->json(['status'=> $result], 200, $this->header);
     }
 
     /**

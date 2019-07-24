@@ -68,7 +68,7 @@
             <tbody class="user-table">
                 <tr v-for="(user, userIndex) in user_list" :key="user.id" v-bind:style="{color: user.color}">
                     <td><span class="button" @click="showProfile(userIndex)">{{user.name}}</span></td>
-                    <td><img :src="'/img/user/' + user.name + '/' + 'profile.png'" /></td>
+                    <td><img :src="user.file.download_link" v-if="user.file != null"/></td>
                     <td>{{user.email}}</td>
                     <td>{{user.sex}}</td>
                     <td>{{user.created_at}}</td>
@@ -92,8 +92,8 @@
                     <span><p>Create Time:{{profile.created_at}}</p></span>
                 </div>
                 <div class="profile-avatar">
-                    <img :src="'/img/user/' + profile.name + '/' + 'profile.png'" />
-                    <form v-if="user_info.name == profile.name">
+                    <img :src="profile.file.download_link" v-if="profile.file != null"/>
+                    <form v-if="user_info.name == profile.name" onsubmit="return false;">
                         <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
                         <center><button type="submit" @click="uploadAvatar()">New Avatar</button></center>
                     </form>
@@ -259,25 +259,49 @@ export default {
         },
 
         uploadAvatar: function(){
-            let self = this;
-            let formData = new FormData();
-            formData.append('file', this.file);
+            if(this.avatar_file == null)
+                alert("未選擇圖檔");
+            else{
+                if(this.avatar_file.size <= 5*1024*1024){
+                    let self = this;
+                    let formData = new FormData();
+                    formData.append('image', this.avatar_file);
+                    formData.append('user_name', this.user_info.name);
+                    formData.append('img_name', this.avatar_file.name);
+                    formData.append('img_size', this.avatar_file.size);
+                    formData.append('img_type', this.avatar_file.type);
 
-            self.axios.post( '/avatar',
-                formData,{
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
-                .then(function(){
-                    console.log('SUCCESS!!');
-                })
-                .catch(function(){
-                    console.log('FAILURE!!');
-                });
+                    self.axios.post( '/image',
+                        formData,{
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                        .then(function(response){
+                            console.log(response.data);
+                            if(response.data.status){
+                                self.profile_state = false;
+                                self.getUserList();
+                            }
+                            else
+                                alert("檔名已存在");
+
+                        })
+                        .catch(function(response){
+                            console.log(response);
+                        });
+                }
+                else
+                    alert("圖檔超過5MB");
+            }
+            
+            // let self = this;
+            // self.profile_state = false;
+            
         },
 
         handleFileUpload(){
+            console.log(this.$refs.file.files[0]);
             this.avatar_file = this.$refs.file.files[0];
         },
 
