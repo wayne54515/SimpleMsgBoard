@@ -40,7 +40,7 @@ class FileRepository
         $file_name = $data['file_name'];
         $file_size = $data['file_size'];
         $file_url = 'user_file/' . $user_name . '/' . $file_name;
-        $file_type = $data['img_type'];
+        $file_type = $data['file_type'];
         $file_data['user_name'] = $user_name;
         $file_data['file_name'] = $file_name;
         $file_data['download_link'] = $file_url;

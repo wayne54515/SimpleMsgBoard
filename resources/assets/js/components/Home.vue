@@ -113,13 +113,13 @@ import { setTimeout } from 'timers';
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="file in profile.file" :key="file.id" v-bind="profie.file">
-                                <td>{{file.id}}</td>
-                                <td><a :href="file.download_link">{{file.file_name}}</a></td>
-                                <td>{{file.file_size}}</td>
-                                <td>{{file.file_type}}</td>
-                                <td>{{file.updated_at}}</td>
-                                <td><span class="button" @click="rename(file.download)">Edit</span></td>
+                            <tr v-for="p_file in profile.file" :key="p_file.id">
+                                <td>{{p_file.id}}</td>
+                                <td><a :href="p_file.download_link" target="_blank">{{p_file.file_name}}</a></td>
+                                <td>{{p_file.file_size}}</td>
+                                <td>{{p_file.file_type}}</td>
+                                <td>{{p_file.updated_at}}</td>
+                                <td><span class="button" @click="rename(p_file.download_link)">Edit</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -391,7 +391,7 @@ export default {
                         .then(function(response){
                             console.log(response.data);
                             if(response.data.status){
-                                // self.file_state = false;
+                                self.file_state = false;
                                 self.getUserList();
                             }
                             else
