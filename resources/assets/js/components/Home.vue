@@ -116,7 +116,9 @@ import { setTimeout } from 'timers';
                             <tr v-for="(p_file, p_file_index) in profile.file" :key="p_file.id">
                                 <td>{{p_file.id}}</td>
                                 <td>
-                                    <a :href="p_file.download_link" target="_blank" v-if="!file_edit[p_file_index]">{{p_file.file_name}}</a>
+                                    <a :href="p_file.download_link" download v-if="!file_edit[p_file_index]"  v-bind:style="{color: profile.color}">
+                                        {{p_file.file_name}}
+                                    </a>
                                     <input type="text" v-if="file_edit[p_file_index]" v-model="new_file_name">
                                 </td>
                                 <td>{{p_file.file_size}}</td>
@@ -437,12 +439,12 @@ export default {
                     old_data: self.profile.file[index],
                     new_name: self.new_file_name,
                 }
-            }).then((response) => {
-                console.log(response);
+                }).then(function(response){
+                    console.log(response);
                 self.getUserList();
-            }).catch((response) => {
-                console.log(response);
-            })
+                }).catch(function(response){
+                    console.log(response);
+                })
             // console.log("rename function"+index);
             this.file_edit[index] = false;
         },
@@ -652,5 +654,9 @@ export default {
         display: block;
         width: auto;
         margin-bottom: 5%;
+    }
+
+    .upload-file a {
+        text-decoration:none;
     }
 </style>

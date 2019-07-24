@@ -38,7 +38,7 @@ class FileRepository
     public function insertFile($data){
         $user_name = $data['user_name'];
         $file_name = $data['file_name'];
-        $file_size = $data['file_size'];
+        $file_size = $this->getFileSize((int)$data['file_size']);
         $file_url = 'user_file/' . $user_name . '/' . $file_name;
         $file_type = $data['file_type'];
         $file_data['user_name'] = $user_name;
@@ -57,7 +57,7 @@ class FileRepository
     public function insertAvatar($data){
         $user_name = $data['user_name'];
         $image_name = $data['img_name'];
-        $image_size = $data['img_size'];
+        $image_size = $this->getFileSize((int)$data['img_size']);
         $image_url = 'img/user/' . $user_name . '/' . $image_name;
         $image_type = $data['img_type'];
         $pre_url = $data['pre_url'];
@@ -121,6 +121,33 @@ class FileRepository
         else
             return false;
         
+    }
+
+    function getFileSize($num){
+        $p = 0;
+        $format='bytes';
+        if($num>0 && $num<1024){
+            $p = 0;
+            return number_format($num).' '.$format;
+        }
+        if($num>=1024 && $num<pow(1024, 2)){
+            $p = 1;
+            $format = 'KB';
+        }
+        if ($num>=pow(1024, 2) && $num<pow(1024, 3)) {
+            $p = 2;
+            $format = 'MB';
+        }
+        if ($num>=pow(1024, 3) && $num<pow(1024, 4)) {
+            $p = 3;
+            $format = 'GB';
+        }
+        if ($num>=pow(1024, 4) && $num<pow(1024, 5)) {
+            $p = 3;
+            $format = 'TB';
+        }
+        $num /= pow(1024, $p);
+        return number_format($num, 2).' '.$format;
     }
 
 }
