@@ -1,4 +1,5 @@
 
+import { setTimeout } from 'timers';
 <template>
 <div class="content">
     <div class="nav-bar">
@@ -67,8 +68,8 @@
             </thead>
             <tbody class="user-table">
                 <tr v-for="(user, userIndex) in user_list" :key="user.id" v-bind:style="{color: user.color}">
-                    <td><span class="button" @click="showProfile(userIndex)">{{user.name}}</span></td>
-                    <td><img :src="user.file.download_link" v-if="user.file != null"/></td>
+                    <td><span class="button" @click="setUserIndex(userIndex);showProfile()">{{user.name}}</span></td>
+                    <td><img :src="user.avatar.url" v-if="user.avatar != null"/></td>
                     <td>{{user.email}}</td>
                     <td>{{user.sex}}</td>
                     <td>{{user.created_at}}</td>
@@ -90,12 +91,60 @@
                     <span><p>Color:{{profile.color}}</p></span>
                     <span><p>Sex:{{profile.sex}}</p></span>
                     <span><p>Create Time:{{profile.created_at}}</p></span>
+                    <button @click="showUploadPage()" v-if="user_info.name == profile.name">Upload File</button>
                 </div>
                 <div class="profile-avatar">
-                    <img :src="profile.file.download_link" v-if="profile.file != null"/>
+                    <img :src="profile.avatar.url" v-if="profile.avatar != null"/>
                     <form v-if="user_info.name == profile.name" onsubmit="return false;">
-                        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                        <input type="file" id="image" ref="image" v-on:change="handleImageUpload()"/>
                         <center><button type="submit" @click="uploadAvatar()">New Avatar</button></center>
+                    </form>
+                </div>
+                <div class="upload-file" v-if="profile.file[0] != null">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>ID</td>
+                                <td>檔名</td>
+                                <td>大小</td>
+                                <td>種類</td>
+                                <td>時間</td>
+                                <td>編輯</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="file in profile.file" :key="file.id" v-bind="profie.file">
+                                <td>{{file.id}}</td>
+                                <td><a :href="file.download_link">{{file.file_name}}</a></td>
+                                <td>{{file.file_size}}</td>
+                                <td>{{file.file_type}}</td>
+                                <td>{{file.updated_at}}</td>
+                                <td><span class="button" @click="rename(file.download)">Edit</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </transition>
+
+        <transition enter-active-class="show" leave-active-class="hide">
+        <div class="form-mask" v-if="file_state">
+            <div class="file-content">
+                <h3 style="display: inline">UPLOAD FILE</h3>
+                <span class="close-page" @click="file_state = false;">X</span>
+                <p class="seperate-line"></p>
+                <div class="file-info">
+                    <span><p>Name : {{user_info.name}}</p></span>
+                    <span><p>File Name : {{file.name}}</p></span>
+                    <span><p>File Size : {{file.size}}</p></span>
+                    <span><p>File Type : {{file.type}}</p></span>
+                    <span><p>Create Time : {{file.lastModifiedDate}}</p></span>
+                </div>
+                <div class="file-form">
+                    <form onsubmit="return false;">
+                        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                        <button type="submit" @click="uploadFile()">Upload File</button>
                     </form>
                 </div>
             </div>
@@ -117,10 +166,14 @@ export default {
             user_info: {},//login user data
             profile: {},//user profile data
             avatar_file: "",
+            file:"",
+            user_index: 0,
+            file_info: {},
             user_state: "guest",
             page_state: "not_login",
             form_state: "",
             profile_state: false,
+            file_state: false,
             alert_msg: "",// login/register錯誤警告
         }
     },
@@ -135,6 +188,7 @@ export default {
             this.axios.get('/user')
                 .then(function(response){
                     self.user_list = response.data.users;
+                    self.profile = self.user_list[self.user_index];
                 })
                 .catch(function(response){
                     console.log(response);
@@ -253,9 +307,17 @@ export default {
                 })
         },
 
-        showProfile: function(index){
-            this.profile = this.user_list[index];
+        setUserIndex: function(index){
+            this.user_index = index;
+        },
+
+        showProfile: function(){
+            this.profile = this.user_list[this.user_index];
             this.profile_state = true;
+        },
+
+        showUploadPage: function(index){
+            this.file_state = true;
         },
 
         uploadAvatar: function(){
@@ -270,8 +332,12 @@ export default {
                     formData.append('img_name', this.avatar_file.name);
                     formData.append('img_size', this.avatar_file.size);
                     formData.append('img_type', this.avatar_file.type);
+                    if(self.profile.avatar != null)
+                        formData.append('pre_url', self.profile.avatar.url);
+                    else
+                        formData.append('pre_url', "");
 
-                    self.axios.post( '/image',
+                    self.axios.post( '/file/avatar/',
                         formData,{
                             headers: {
                                 'Content-Type': 'multipart/form-data'
@@ -280,7 +346,7 @@ export default {
                         .then(function(response){
                             console.log(response.data);
                             if(response.data.status){
-                                self.profile_state = false;
+                                // self.profile_state = false;
                                 self.getUserList();
                             }
                             else
@@ -293,16 +359,63 @@ export default {
                 }
                 else
                     alert("圖檔超過5MB");
+                // this.profile = this.user_list[this.user_index];
             }
             
-            // let self = this;
-            // self.profile_state = false;
+        },
+
+        handleImageUpload(){
+            console.log(this.$refs.image.files[0]);
+            this.avatar_file = this.$refs.image.files[0];
+        },
+
+        uploadFile: function(){
+            if(this.file == null)
+                alert("未選擇檔案");
+            else{
+                if(this.file.size <= 5*1024*1024){
+                    let self = this;
+                    let formData = new FormData();
+                    formData.append('file', this.file);
+                    formData.append('user_name', this.user_info.name);
+                    formData.append('file_name', this.file.name);
+                    formData.append('file_size', this.file.size);
+                    formData.append('file_type', this.file.type);
+
+                    self.axios.post( '/file/',
+                        formData,{
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                        .then(function(response){
+                            console.log(response.data);
+                            if(response.data.status){
+                                // self.file_state = false;
+                                self.getUserList();
+                            }
+                            else
+                                alert("檔名已存在");
+
+                        })
+                        .catch(function(response){
+                            console.log(response);
+                        });
+                }
+                else
+                    alert("檔案超過5MB");
+                // this.profile = this.user_list[this.user_index];
+            }
             
         },
 
         handleFileUpload(){
             console.log(this.$refs.file.files[0]);
-            this.avatar_file = this.$refs.file.files[0];
+            this.file = this.$refs.file.files[0];
+        },
+
+        rename($pre_url){
+
         },
 
     },
@@ -458,7 +571,7 @@ export default {
         to { opacity: 0; }
     }
 
-    .profile-content {
+    .profile-content, .file-content {
         width: 46%;
         margin-left: 27%;
         margin-top: 10%;

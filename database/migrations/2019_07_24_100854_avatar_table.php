@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class FileTable extends Migration
+class AvatarTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,13 @@ class FileTable extends Migration
      */
     public function up()
     {
-        Schema::create('files', function (Blueprint $table) {
+        Schema::create('avatars', function (Blueprint $table) {
             $table->increments('id');
             $table->string('user_name');
-            $table->string('file_name');
-            $table->string('download_link');
-            $table->string('file_size');
-            $table->string('file_type');
+            $table->string('avatar_name');
+            $table->string('url');
+            $table->string('img_size');
+            $table->string('img_type');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class FileTable extends Migration
      */
     public function down()
     {
-        Schema::drop('files');
+        Schema::drop('avatars');
     }
 }

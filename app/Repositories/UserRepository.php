@@ -19,7 +19,7 @@ class UserRepository
 
     public function getAllUser(){
         return $this->user
-            ->with('file')
+            ->with('file', 'avatar')
             ->get();
     }
 

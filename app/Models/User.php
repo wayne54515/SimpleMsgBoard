@@ -31,7 +31,11 @@ class User extends Authenticatable
      * @return App\Models\File
      */
     public function file(){
-        return $this->hasOne('App\Models\file', 'user_name', 'name')->orderBy('id', 'desc');
+        return $this->hasMany('App\Models\file', 'user_name', 'name');
+    }
+
+    public function avatar(){
+        return $this->hasOne('App\Models\avatar', 'user_name', 'name')->orderBy('id', 'desc');
     }
 
 }

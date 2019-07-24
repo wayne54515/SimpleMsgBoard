@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +43,7 @@ Route::group(['prefix' => '/user'], function () {
 
 });
 
-Route::group(['prefix' => '/image'], function () {
+Route::group(['prefix' => '/file'], function () {
 
     // Route::get('/{id}', 'UserController@show');
 
@@ -55,5 +56,7 @@ Route::group(['prefix' => '/image'], function () {
     Route::put('/update/{id}', 'FileController@update');
 
     Route::delete('/del/{id}', 'FileController@destroy');
+
+    Route::post('/avatar', 'FileController@storeAvatar');
 
 });

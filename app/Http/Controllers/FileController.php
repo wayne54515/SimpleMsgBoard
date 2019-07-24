@@ -51,11 +51,30 @@ class FileController extends Controller
     {
         $data = $request->all();
 
-        if($this->fileRepository->checkFileNotExist($data['user_name'], $data['img_name'])){
+        if($this->fileRepository->checkFileNotExist($data['user_name'], $data['file_name'])){
             $result = $this->fileRepository->insertFile($data);
         }
         else
             $result = false;
+        // $user_name = $data['user_name'];
+        // $image_name = $data['img_name'];
+        // $data['image']->move(public_path('img/user/' . $user_name . '/'), $image_name);
+
+        return response()->json(['status'=> $result], 200, $this->header);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeAvatar(Request $request)
+    {
+        $data = $request->all();
+
+
+        $result = $this->fileRepository->insertAvatar($data);
         // $user_name = $data['user_name'];
         // $image_name = $data['img_name'];
         // $data['image']->move(public_path('img/user/' . $user_name . '/'), $image_name);

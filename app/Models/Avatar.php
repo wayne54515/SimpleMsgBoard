@@ -4,11 +4,11 @@ namespace App\Models;
 
 use App\Models\BaseModel;
 
-class File extends BaseModel
+class Avatar extends BaseModel
 {
 
     protected $fillable = [
-        'user_name', 'file_name', 'download_link', 'file_size', 'file_type', 'created_at'
+        'user_name', 'avatar_name', 'url', 'img_size', 'img_type', 'created_at'
     ];
 
     protected $hidden = [
