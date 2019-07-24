@@ -83,22 +83,28 @@ class FileRepository
 
     public function rename($data){
         // $this->user->find($id)->update($file);
-        $user_name = $data['user_name'];
-        $new_name = $data['file_name'];
-        $file_url = 'user_file/' . $user_name . '/' . $file_name;
-        $pre_url = $data['pre_url'];
+        $old_data = $data['old_data'];
+        $user_name = $old_data['user_name'];
+        $new_name = $data['new_name'];
+        $file_url = 'user_file/' . $user_name . '/' . $new_name;
+        $pre_url = $old_data['download_link'];
 
-        $file_data['file_name'] = $file_name;
+        $file_data['file_name'] = $new_name;
         $file_data['download_link'] = $file_url;
 
-        unlink(public_path($pre_url));
+        // unlink(public_path($pre_url));
         
-        $data['file']->move(public_path('user_file/' . $user_name . '/'), $new_name);
+        // move(public_path($pre_url), public_path($file_url));
+
+        rename(public_path($pre_url), public_path($file_url));
+        
 
         $this->file
             ->where('user_name', '=', $user_name)
-            ->where('dounload_link', '=', $pre_url)
+            ->where('download_link', '=', $pre_url)
             ->update($file_data);
+
+        return "success";
     }
 
     public function deleteFile($id){

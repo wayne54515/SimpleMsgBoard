@@ -83,7 +83,7 @@ import { setTimeout } from 'timers';
         <div class="form-mask" v-if="profile_state">
             <div class="profile-content"  v-bind:style="{color: profile.color}">
                 <h3 style="display: inline">MEMBER INFO</h3>
-                <span class="close-page" @click="profile_state = false;">X</span>
+                <span class="close-page" @click="profile_state = false; file_edit = {}">X</span>
                 <p class="seperate-line"></p>
                 <div class="profile-info">
                     <span><p>Name:{{profile.name}}</p></span>
@@ -428,21 +428,21 @@ export default {
         },
 
         rename: function(index){
-            // let self = this;
+            let self = this;
 
-            // this.axios({
-            //     method: 'put',
-            //     url: '/file/rename/',
-            //     data:{
-            //         'file': self.profile.file[index]
-            //     }
-            // }).then((response) => {
-            //     console.log(response);
-            //     this.file_edit = false;
-            //     self.getUserList();
-            // }).catch((response) => {
-            //     console.log(response);
-            // })
+            this.axios({
+                method: 'put',
+                url: '/file/rename/',
+                data:{
+                    old_data: self.profile.file[index],
+                    new_name: self.new_file_name,
+                }
+            }).then((response) => {
+                console.log(response);
+                self.getUserList();
+            }).catch((response) => {
+                console.log(response);
+            })
             // console.log("rename function"+index);
             this.file_edit[index] = false;
         },

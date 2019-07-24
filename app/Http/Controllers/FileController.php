@@ -114,8 +114,8 @@ class FileController extends Controller
     public function update(Request $request)
     {
         $data = $request->all();
-        $this->fileRepository->rename($data);
-        return response()->json(['status'=> $data], 200, $this->header);
+        $result = $this->fileRepository->rename($data);
+        return response()->json(['status'=> $result], 200, $this->header);
     }
 
     /**
