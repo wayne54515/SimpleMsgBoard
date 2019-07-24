@@ -109,17 +109,23 @@ import { setTimeout } from 'timers';
                                 <td>大小</td>
                                 <td>種類</td>
                                 <td>時間</td>
-                                <td>編輯</td>
+                                <td v-if="user_info.name == profile.name">編輯</td>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="p_file in profile.file" :key="p_file.id">
+                            <tr v-for="(p_file, p_file_index) in profile.file" :key="p_file.id">
                                 <td>{{p_file.id}}</td>
-                                <td><a :href="p_file.download_link" target="_blank">{{p_file.file_name}}</a></td>
+                                <td>
+                                    <a :href="p_file.download_link" target="_blank" v-if="!file_edit[p_file_index]">{{p_file.file_name}}</a>
+                                    <input type="text" v-if="file_edit[p_file_index]" v-model="new_file_name">
+                                </td>
                                 <td>{{p_file.file_size}}</td>
                                 <td>{{p_file.file_type}}</td>
                                 <td>{{p_file.updated_at}}</td>
-                                <td><span class="button" @click="rename(p_file.download_link)">Edit</span></td>
+                                <td v-if="user_info.name == profile.name">
+                                    <span class="button" @click="showRename(p_file_index)" v-if="!file_edit[p_file_index]">Edit</span>
+                                    <button @click="rename(p_file_index)" v-if="file_edit[p_file_index]">Rename</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -172,8 +178,10 @@ export default {
             user_state: "guest",
             page_state: "not_login",
             form_state: "",
+            new_file_name: "",
             profile_state: false,
             file_state: false,
+            file_edit: {},
             alert_msg: "",// login/register錯誤警告
         }
     },
@@ -414,8 +422,29 @@ export default {
             this.file = this.$refs.file.files[0];
         },
 
-        rename($pre_url){
+        showRename: function(index){
+            this.$set(this.file_edit, index, true);
+            this.new_file_name = this.profile.file[index].file_name;
+        },
 
+        rename: function(index){
+            // let self = this;
+
+            // this.axios({
+            //     method: 'put',
+            //     url: '/file/rename/',
+            //     data:{
+            //         'file': self.profile.file[index]
+            //     }
+            // }).then((response) => {
+            //     console.log(response);
+            //     this.file_edit = false;
+            //     self.getUserList();
+            // }).catch((response) => {
+            //     console.log(response);
+            // })
+            // console.log("rename function"+index);
+            this.file_edit[index] = false;
         },
 
     },
@@ -572,7 +601,8 @@ export default {
     }
 
     .profile-content, .file-content {
-        width: 46%;
+        min-width: 46%;
+        width: auto;
         margin-left: 27%;
         margin-top: 10%;
         text-align: left;

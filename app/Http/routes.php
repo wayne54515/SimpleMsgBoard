@@ -53,7 +53,7 @@ Route::group(['prefix' => '/file'], function () {
 
     Route::get('/edit/{id}', 'FileController@edit');
 
-    Route::put('/update/{id}', 'FileController@update');
+    Route::put('/rename', 'FileController@update');
 
     Route::delete('/del/{id}', 'FileController@destroy');
 

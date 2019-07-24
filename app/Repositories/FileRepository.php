@@ -81,7 +81,27 @@ class FileRepository
         $this->user->find($id)->update($file);
     }
 
-    public function deleteUser($id){
+    public function rename($data){
+        // $this->user->find($id)->update($file);
+        $user_name = $data['user_name'];
+        $new_name = $data['file_name'];
+        $file_url = 'user_file/' . $user_name . '/' . $file_name;
+        $pre_url = $data['pre_url'];
+
+        $file_data['file_name'] = $file_name;
+        $file_data['download_link'] = $file_url;
+
+        unlink(public_path($pre_url));
+        
+        $data['file']->move(public_path('user_file/' . $user_name . '/'), $new_name);
+
+        $this->file
+            ->where('user_name', '=', $user_name)
+            ->where('dounload_link', '=', $pre_url)
+            ->update($file_data);
+    }
+
+    public function deleteFile($id){
         $this->user->destroy($id);
     }
 

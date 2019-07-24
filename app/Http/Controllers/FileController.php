@@ -111,9 +111,11 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $data = $request->all();
+        $this->fileRepository->rename($data);
+        return response()->json(['status'=> $data], 200, $this->header);
     }
 
     /**
