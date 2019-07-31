@@ -67,7 +67,7 @@ class FileRepository
         $img_data['img_size'] = $image_size;
         $img_data['img_type'] = $image_type;
 
-        if(file_exists(public_path($pre_url)))
+        if($pre_url != null)
             unlink(public_path($pre_url));
         
         $data['image']->move(public_path('img/user/' . $user_name . '/'), $image_name);

@@ -10,11 +10,14 @@
     {{-- Vue.js 掛載點 --}}
     <div id="app">
         {{--  @section('navbar')
-            @include('layouts.navbar')  --}}
+            @include('layouts.navbar')
+        @show  --}}
+        @section('navbar')
+            @include('nav-bar')
         @show
 
         @yield('content')
     </div>
- <script src="{{ asset('js/main.js')}}"></script>
+    <script src="{{ asset('js/main.js')}}"></script>
 </body>
 </html>

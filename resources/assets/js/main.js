@@ -28,6 +28,8 @@ Vue.use(VueAxios, axios)
 // new Vue(Vue.util.extend({ router }, App)).$mount('#app')
 
 Vue.component('home', require('./components/Home.vue'));
+Vue.component('article_page', require('./components/Article.vue'));
+Vue.component('navbar', require('./components/Navbar.vue'));
 
 const app = new Vue({
     el: '#app'
