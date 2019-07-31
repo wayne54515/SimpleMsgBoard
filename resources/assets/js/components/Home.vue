@@ -320,86 +320,14 @@ export default {
         text-decoration:none;
         color:black;
     }
-
-    .nav-bar{
-        display: block;
-        width: 100%;
-    }
         
     .button{
         cursor: pointer;
-    }
-
-    .nav-bar div{
-        margin: 1%;
-        position: fixed;
-        right: 3%;
-        width: auto;
-        height: inherit;
-        font-size: 20px;
     }
       
     td, th {
         border: 1px solid #dddddd;
         padding: 10px;  
-    }
-
-    .form-bottom{
-        text-align: center;
-    }
-
-    .form-bottom td{
-        cursor: pointer;
-    }
-        
-    .form {
-        width: 30%;
-        margin-left: 35%;
-        margin-top: 10%;
-        text-align: left;
-        position: absolute;
-        overflow: hidden;
-        background-color: white;
-    }
-
-    .form-mask{
-        position: fixed;
-        z-index: 9998;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.747);
-        transition: opacity .3s ease;
-    }
-
-    .form th{
-        padding-left: 6%;
-    }
-
-    .input-box input[type="text"],.input-box input[type="password"],.input-box input[type="email"]{
-        display: block;
-        margin: 5%;
-        width: 90%;
-        font-size: 17px;
-    }
-
-    .input-box label{
-        margin-top: 2%;
-        margin-left: 5%;
-        margin-bottom: 2%;
-        margin-right: 2%;
-        text-align: left;
-        display: inline-block;
-    }
-
-    .input-box button{
-        margin-top: 4%;
-        width: 30%;
-        margin-left: 35%;
-        margin-bottom: 4%;
-        padding: 2%;
-        display: block;
     }
 
     .close-page{

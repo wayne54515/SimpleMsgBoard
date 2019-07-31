@@ -9,7 +9,7 @@ class Article extends BaseModel
     protected $table = 'article';
 
     protected $fillable = [
-        'user_name', 'title', 'content'
+        'user_name', 'title', 'content', 'created_at', 'updated_at'
     ];
 
     protected $hidden = [

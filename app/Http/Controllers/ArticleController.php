@@ -64,7 +64,7 @@ class ArticleController extends Controller
         
         $this->articleRepository->addArticle($data['article']);
         
-        $article = $this->articleRepository->getLatestArticle($data['article']['card_id']);
+        $article = $this->articleRepository->getLatestArticle($data['article']);
         return response()->json(['article' => $article],
             200, $this->header);
     }

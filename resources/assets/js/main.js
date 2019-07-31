@@ -30,6 +30,7 @@ Vue.use(VueAxios, axios)
 Vue.component('home', require('./components/Home.vue'));
 Vue.component('article_page', require('./components/Article.vue'));
 Vue.component('navbar', require('./components/Navbar.vue'));
+Vue.component('article_list', require('./components/ArticleList.vue'));
 
 const app = new Vue({
     el: '#app'

@@ -90,7 +90,7 @@
 // import modal from "./Modal.vue";
 
 export default {
-    props: ['user'],
+    props: [],
 
     data: function(){
         return {
@@ -104,6 +104,7 @@ export default {
             showReplyInsert: [],
             article_number: 0,
             show_reply_initial: [],
+            user_info: JSON.parse(window.sessionStorage.getItem('login_user')),
 
 
             isReady: false
@@ -115,7 +116,7 @@ export default {
             console.log(this.cardId);
             console.log(this.user);
             let self = this;
-            this.axios.get('/article/' + this.cardId)
+            this.axios.get('/article/')
                 .then(function(response){
                     self.article = response.data.article;
                     console.log(self.article);

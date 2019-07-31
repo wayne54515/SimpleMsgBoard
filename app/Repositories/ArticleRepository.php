@@ -44,13 +44,11 @@ class ArticleRepository
      * 
      * @return App\Models\Article的最新1筆資料
      */
-    public function getLatestArticle($card_id){
+    public function getLatestArticle(){
         return $this->article
                 ->with('user', 'reply.user')
-                // ->where('card_id', '=', $card_id)
                 ->orderby('id', 'desc')
                 ->first(); 
-                // ->get();
     }
 
     /**
@@ -59,18 +57,7 @@ class ArticleRepository
      * 
      */
     public function addArticle($data){
-        $user_name = $data['user_name'];
-        $user_id = $this->userService->getIdByName($user_name);
-        $title = $data['title'];
-        $content = $data['content'];
-        
-        $article = new Article;
-        //'user_id', 'title', 'content', 'card_id'
-        $article['user_id'] = $user_id;
-        $article['title'] = $title;
-        $article['content'] = $content;
-        // $article['card_id'] = $card_id;
-        $article->save();
+        $this->article->create($data);
     }
 
 
