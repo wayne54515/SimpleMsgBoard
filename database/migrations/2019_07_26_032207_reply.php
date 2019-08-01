@@ -14,8 +14,8 @@ class Reply extends Migration
     {
         Schema::create('reply', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_name')->comment('回覆者');
-            $table->text('content')->comment('回覆內容');
+            $table->string('user_name')->comment('回覆者');
+            $table->longText('content')->comment('回覆內容');
             $table->integer('article_id')->unsign();
             $table->timestamps();
         });

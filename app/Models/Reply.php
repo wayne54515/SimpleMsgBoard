@@ -9,7 +9,7 @@ class Reply extends BaseModel
     protected $table = 'reply';
     
     protected $fillable = [
-        'user_name', 'content', 'article_id'
+        'user_name', 'content', 'article_id', 'created_at', 'updated_at'
     ];
 
     protected $hidden = [

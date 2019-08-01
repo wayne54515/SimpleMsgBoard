@@ -10,6 +10,6 @@
     <article :user-name="{{Auth::user()->name}}" user-type="{{Auth::user()->type}}"></article>
     @endif  --}}
 
-    <article_page :user="['Guest', 'guest']"></article_page>
+    <article_page :article_id="{{Request::segment(2)}}"></article_page>
     
 @endsection

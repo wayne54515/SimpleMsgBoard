@@ -107,6 +107,7 @@ export default {
                     console.log(response);
                     // self.getUserList();
                     self.closeFormPage();
+                    window.location.reload()
                     
                 })
                 .catch((response) => {

@@ -76,9 +76,8 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = $this->articleRepository->getArticleDesc($id);
-        $article_number = count($article);
-        return response()->json(['article' => $article, 'article_number' =>$article_number],
+        $article = $this->articleRepository->getArticleById($id);
+        return response()->json(['article' => $article],
             200, $this->header);
     }
 
@@ -106,7 +105,7 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        // $this->articleRepository->updateArticle($id, $data['article']);
+        $this->articleRepository->updateArticle($id, $data['article']);
         return response()->json(['status' => 'OK'], 200, $this->header);
     }
 

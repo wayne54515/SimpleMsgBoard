@@ -44,16 +44,7 @@ class ReplyRepository
      * 
      */
     public function addReply($data){
-        $user_name = $data['user_name'];
-        $user_id = $this->userService->getIdByName($user_name);
-        $content = $data['content'];
-        $article_id = $data['article_id'];
-
-        $reply = new Reply;
-        $reply['user_id'] = $user_id;
-        $reply['content'] = $content;
-        $reply['article_id'] = $article_id;
-        $reply->save();
+        $this->reply->create($data);
     }
 
 
@@ -71,9 +62,7 @@ class ReplyRepository
      * 
      */
     public function updateReply($id, $content){
-        $reply = $this->reply->find($id);
-        $reply['content'] = $content;
-        $reply->save();
+        $this->reply->find($id)->update($content);
     }
 
     /**

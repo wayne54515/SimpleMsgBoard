@@ -2,10 +2,10 @@
 <div class="article-content">
     <div class="change-page-left"><a :href="'/'">&lt;-成員列表</a></div>
 
-    <div class="write-button"><button @click="showArticleModal = true;" class="">新增貼文</button></div>
+    <div class="write-button" v-if="user_info"><button @click="showArticleModal = true;" class="">新增貼文</button></div>
 
     <div class="article-body" style="margin-top:20px; width:700px;">
-        <table class="article-table outer-table">
+        <table class="article-table outer-table" align="center">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -15,7 +15,7 @@
                     <th>Time</th>
                 </tr>
             </thead>
-            <tbody v-for="(article) in article" :key="article.id" width="70%" align="center">
+            <tbody v-for="(article) in article" :key="article.id">
                 <tr class="article-main">
                     <td>{{article.id}}</td>
                     <td><a :href="'/article_list/'+article.id">{{article.title}}</a></td>
@@ -25,18 +25,9 @@
                 </tr>
             </tbody>
         </table>
-        <!-- <div  class="article-insert" v-if="user_info">
-            <form onsubmit="return false;" style="margin-top:35px;margin-left:10px;">
-                <textarea  @blur="setNewArticle(user_info.name, title, article_content)" v-model="article_content"></textarea>
-                <div align="right">
-                    <button @click="ArticleInsert()">發怖</button>
-                </div>
-            </form>
-            <p align="left" style="font-weight:bold;">發表留言的身分:&nbsp;{{user_info.name}}</p>
-        </div> -->
-
     </div>
 
+    <transition enter-active-class="show" leave-active-class="hide">
     <!-- 編輯文章 -->
     <div v-if="showArticleModal" class="form-mask">
         <div v-if="showArticleModal" class="article-model">
@@ -58,6 +49,7 @@
             </div>
         </div>
     </div>
+    </transition>
 </div>
 </template>
 
@@ -92,8 +84,6 @@ export default {
         },     
 
         ArticleInsert: function(){
-            // console.log(this.article_content.title);
-            // console.log(this.article_content.content);
 
             if((this.article_content.title != null) & (this.article_content.content != null)){
                 let self = this;
@@ -144,11 +134,6 @@ export default {
         margin-left:25px; 
         cursor:pointer;
     }
-
-    /* .button{
-        padding: 2%;
-        
-    } */
 
     .article-body{
         width: 50%;

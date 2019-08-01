@@ -30,12 +30,10 @@ class ArticleRepository
      * 
      * @return App\Models\Article的最新5筆資料
      */
-    public function getArticleDesc($card_id){
+    public function getArticleById($article_id){
         return $this->article
                 ->with('user', 'reply.user')
-                // ->where('card_id', '=', $card_id)
-                // ->orderby('id', 'desc')
-                // ->limit(5)    
+                ->where('id', '=', $article_id)   
                 ->get(); 
     }
 
@@ -75,11 +73,8 @@ class ArticleRepository
      * 
      * 
      */
-    public function updateArticle($id, $title, $content){
-        $article = $this->article->find($id);
-        $article['title'] = $title;
-        $article['content'] = $content;
-        $article->save();
+    public function updateArticle($id, $data){
+        $this->article->find($id)->update($data);
     }
 
     /**
