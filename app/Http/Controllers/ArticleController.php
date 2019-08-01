@@ -106,7 +106,7 @@ class ArticleController extends Controller
     {
         $data = $request->all();
         $this->articleRepository->updateArticle($id, $data['article']);
-        return response()->json(['status' => 'OK'], 200, $this->header);
+        return response()->json(['updated_at' => 'OK'], 200, $this->header);
     }
 
     /**

@@ -149,6 +149,10 @@ export default {
                     self.show_article_edit = false;
                     self.article.content = self.edit_article.content;
                     self.article.title = self.edit_article.title;
+                    var ct = new Date();
+
+                    self.article.updated_at = ct.getFullYear() + '-' + self.timeFormat(ct.getMonth()+1) + '-' + self.timeFormat(ct.getDate()) + ' ' 
+                                            + self.timeFormat(ct.getHours()) + ":" + self.timeFormat(ct.getMinutes()) + ":" + self.timeFormat(ct.getSeconds());
                     self.edit_article = {};
                     console.log("完成");
                 }).catch(function(response){
@@ -206,6 +210,7 @@ export default {
                 .then(function(response){
                     self.article.reply.push(response.data.reply);
                     self.show_reply_edit.push(false);
+                    new_reply.content = "";
                     console.log("完成");
                 })
                 .catch(function(response){
@@ -256,6 +261,9 @@ export default {
                 }).then(function(response){
                     self.$set(self.show_reply_edit, index, false);
                     self.article.reply[index].content = self.edit_reply.content;
+                    var ct = new Date(); 
+                    self.article.reply[index].updated_at = ct.getFullYear() + '-' + self.timeFormat(ct.getMonth()+1) + '-' + self.timeFormat(ct.getDate()) + ' ' 
+                                                        + self.timeFormat(ct.getHours()) + ":" + self.timeFormat(ct.getMinutes()) + ":" + self.timeFormat(ct.getSeconds());
                     self.edit_reply = {};
                     console.log("完成");
                 }).catch(function(response){
@@ -280,6 +288,10 @@ export default {
             this.edit_reply = {};
             this.$set(this.show_reply_edit, index, false);
         },
+
+        timeFormat: function(num){
+            return parseInt(num)>10 ?num :('0'+num)
+        }
     },
 
     mounted: function(){
