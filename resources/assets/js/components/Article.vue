@@ -5,7 +5,7 @@
         <div class="change-page-left2"><a :href="'/'">&lt;-成員列表</a></div>
     </div>
     
-    <div class="article-body" v-show="isReady" style="margin-top:20px; width:700px;">
+    <div class="article-body" v-if="isReady" style="margin-top:20px; width:700px;">
         <h1>{{article.title}}</h1>
         <table class="article-table outer-table" width="70%" align="center">
             <tr class="article-main">
@@ -17,7 +17,7 @@
                             <button id="edit-article-model" v-if="user_info.name == article.user_name" @click="showArticleEdit()">
                                 <img src="/img/article/edit.png" alt="編輯文章" title="編輯">
                             </button>
-                            <button id="del-article-model" @click="delArticle()">
+                            <button id="del-article-model" @click="delArticle()" v-if="user_info.name == article.user_name">
                                 <img src="/img/article/remove.png" alt="刪除文章" title="刪除" border="0">
                             </button>
                         </div>
@@ -31,7 +31,7 @@
                     <!-- Reply -->
                     <div>
                         <p style="float:left;"  class="user-name">{{reply.user_name}}&nbsp;&nbsp;</p><p style="color:blue;float:left;">{{reply.updated_at}}</p>
-                        <div class="icon">
+                        <div class="icon" v-if="user_info">
                             <button id="edit-article-model" v-if="user_info.name == reply.user_name" @click="showReplyEdit(reply, reply_index)">
                                 <img src="/img/article/edit.png" alt="編輯文章" title="編輯">
                             </button>
@@ -210,7 +210,7 @@ export default {
                 .then(function(response){
                     self.article.reply.push(response.data.reply);
                     self.show_reply_edit.push(false);
-                    new_reply.content = "";
+                    self.new_reply.content = "";
                     console.log("完成");
                 })
                 .catch(function(response){

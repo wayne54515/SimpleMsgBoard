@@ -4,7 +4,7 @@
 
     <div class="write-button" v-if="user_info"><button @click="showArticleModal = true;" class="">新增貼文</button></div>
 
-    <div class="article-body" style="margin-top:20px; width:700px;">
+    <div class="article-body" style="margin-top:20px; width:700px;" v-if="isReady">
         <table class="article-table outer-table" align="center">
             <thead>
                 <tr>
@@ -66,6 +66,8 @@ export default {
             article_content: {},
             alert_msg: "",
             user_info: JSON.parse(window.sessionStorage.getItem('login_user')),
+
+            isReady: false,
         }
     },
 
@@ -77,6 +79,7 @@ export default {
                 .then(function(response){
                     self.article = response.data.article;
                     console.log(self.article);
+                    self.isReady = true;
                 })
                 .catch(function(response){
                     console.log(response);
