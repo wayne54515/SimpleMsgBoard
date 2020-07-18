@@ -58,7 +58,6 @@ DB_PASSWORD={your-db-password}
 先透過 mysql 建立一個資料庫，名稱與上面的 .env file 所寫的資料庫名稱相同
 
 編碼設定為 utf-8
-![](https://i.imgur.com/8oDveb1.png)
 
 於專案根目錄下依序執行下述內容
 ```bash
