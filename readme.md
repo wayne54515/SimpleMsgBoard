@@ -45,7 +45,7 @@ DB_HOST=127.0.0.1
 # 連接localhost DB，請跟你環境下mysql所使用的port 相同
 DB_PORT=3306
 
-# 設定使用的資料庫名稱 (e.g. DBProject2018)
+# 設定使用的資料庫名稱
 DB_DATABASE={your-dbname}
 
 # 設定資料庫使用者帳號密碼，請替換成你的帳密
